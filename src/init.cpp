@@ -1,30 +1,36 @@
-#include "tokenizer.cpp"
+#include "read&tokenizer.cpp"
 
 void initializer() {
-    Queue q1[MAX], q2[MAX];
+    Queue disk[MAX], process[MAX];
+    Memory m[MAX];
+    int numOfLines = 4;
     string readedFile1; //destination of readed file from txt
     string readedFile2; //destination of readed file from txt
     string arquivosFile = "R:/GitHub/ManipulacaoMatrizes/data/arquivos_exemplo.txt";
-    string processosFile = "R:/GitHub/ManipulacaoMatrizes/data/arquivos_exemplo.txt";
+    string processosFile = "R:/GitHub/ManipulacaoMatrizes/data/processos_exemplo.txt";
+    
     cout << "....................................." << endl;
     cout << "   ... <INITIALIZING PROGRAM> ..." << endl << endl;
     
     cout << "Reading fileS and setting things up..." << endl;
     cout << "....................................." << endl;
-    readFile(arquivosFile, &readedFile1, q1); //reader
+    
+    readFile(arquivosFile, &readedFile1, disk); //disk save 'arquivos'
     cout << "File '" << arquivosFile << "' readed and tokenized!" << endl;
     cout << "....................................." << endl;
-    //readFile(processosFile, &readedFile2, q2); //reader
+    
+    readFile(processosFile, &readedFile2, process); //process save 'processos'
     cout << "File '" << processosFile << "' readed and tokenized!" << endl;   
     cout << "....................................." << endl;
+    
     do {
         cout << "====================" << endl;
         cout << "\tMENU" << endl;
         cout << "1 -> PRINT 'ARQUIVO'" << endl;
         cout << "2 -> PRINT 'PROCESSO'" << endl;
-        cout << "3 ->" << endl;
-        cout << "4 ->" << endl;
-        cout << "5 ->" << endl;
+        cout << "3 -> SEARCH IN DISK or MEMORY" << endl;
+        cout << "4 -> PRINT MEMORY" << endl;
+        cout << "5 -> FREE MEMORY" << endl;
         cout << "0 -> EXIT" << endl;
         cout << "====================" << endl;
         cout << "Choose an option: ";
@@ -32,17 +38,30 @@ void initializer() {
         cin >> option;
         switch (option) {
         case 1:
-            
-            //readFile(processosFile, &readed, q); //reader
-            //printQueue(q, readed.length());
-            system("pause");
-            system("cls");
+            for (int i = 0; i < numOfLines; i++) {
+                printQueue(&disk[i]);
+            }
             break;
         case 2:
-            printQueue(q1);/*, readed.length()); not working*/
-            printQueue(q2);/*, readed.length()); not working*/
-            system("pause");
-            system("cls");
+            for (int i = 0; i < numOfLines; i++) {
+                printQueue(&process[i]);
+            }
+            break;
+
+        case 3:
+            searchProcess(disk, process, m);
+            cout << "SEARCH DONE!" << endl;
+            break;
+
+        case 4:
+            for (int i = 0; i < numOfLines; i++) {
+                printMemory(&m[i]);
+            }
+            break;
+
+        case 5:
+            freeMemory(m, disk);
+            cout << "MEMORY IS FREE!" << endl;
             break;
 
         case 0:
@@ -55,5 +74,7 @@ void initializer() {
             system("cls");
             break;
         }
+        system("pause");
+        system("cls");
     } while(true);
 }

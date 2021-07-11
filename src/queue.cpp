@@ -32,8 +32,25 @@ void inQueue(Queue *q, int value) {
 }
 
 void printQueue(Queue *q) {
-    //for (int i = 0; i < lenght; i++) {
-        for(int j = q->first; j < q->last; j++)
-            cout << " " << q->array[j];
-    //} cout << endl;
+    for(int j = q->first; j < q->last; j++)
+        cout << " " << q->array[j];
+    cout << endl;
+}
+
+int requestDisk(Queue *q, int page) {
+    int temp;
+    for(int j = q->first; j < q->last; j++)
+        if (page + 1 == j) {
+            temp = q->array[j];
+            q->array[j] = -1;
+            return temp;
+        }
+    return -1;
+}
+
+void returnToDisk(Queue *q, int page, int value) {
+    for(int j = q->first + 1; j < q->last; j++) {
+        if (page + 1 == j)
+            q->array[j] = value;
+    }
 }
